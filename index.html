@@ -11,12 +11,16 @@
     <!-- Header -->
     <header>
       <h4>Now playing:</h4>
-      <h2>Merry Go Round of Life</h2>
+      <h2>The Success</h2>
+      <!--  The Success by Keys of Moon | https://soundcloud.com/keysofmoon
+Music promoted by https://www.chosic.com/free-music/all/
+Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/ -->
     </header>
 
     <!-- CD -->
     <div class="cd">
-      <div class="cd-thumb" style="background-image: url('https://i.pinimg.com/originals/7b/44/e8/7b44e8a0be6fb1a0c4ce3647f6d43f68.jpg')">
+      <div class="cd-thumb" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80')">
       </div>
     </div>
 
@@ -47,39 +51,103 @@
 
   <!-- Playlist -->
   <div class="playlist">
-    <div class="song">
-      <div class="thumb" style="background-image: url('https://www.vinyl-digital.com/out/pictures/z1/4988008088212_z1.jpg')">
-      </div>
-      <div class="body">
-        <h3 class="title">The Courageous Cavalry</h3>
-        <p class="author">Joe Hisaishi</p>
-      </div>
-      <div class="option">
-        <i class="fas fa-ellipsis-h"></i>
-      </div>
-    </div>
-    <div class="song">
-      <div class="thumb" style="background-image: url('https://static.tomplay.com/wp-content/uploads/2019/02/Joe-Hisaishi--Howl-s-Moving-Castle-Theme.jpg')">
-      </div>
-      <div class="body">
-        <h3 class="title">Scroll Through the Sky</h3>
-        <p class="author">Joe Hisaishi</p>
-      </div>
-      <div class="option">
-        <i class="fas fa-ellipsis-h"></i>
-      </div>
-    </div>
-    <div class="song">
-      <div class="thumb" style="background-image: url('https://m.media-amazon.com/images/I/81tK7nnoZhL._SS500_.jpg')">
-      </div>
-      <div class="body">
-        <h3 class="title">Witch of the Waste</h3>
-        <p class="author">Joe Hisaishi</p>
-      </div>
-      <div class="option">
-        <i class="fas fa-ellipsis-h"></i>
-      </div>
-    </div>
+    
   </div>
 </div>
 
+<script>
+    /*
+    1. Render song
+    2. Scroll top
+    3. Play/Pause/Seek
+    4. CD rotate
+    5. Next/Pre
+    6. Random
+    7. Next/Repeat when ended
+    8. Active song
+    9. Scroll active song into view
+    10. play song when click
+    */ 
+
+   const $ = document.querySelector.bind(document)
+   const $$ = document.querySelectorAll.bind(document)
+
+
+   const app = {
+       currentIndex: 0,
+       song: [
+           {
+               name: 'The Success',
+               singer: 'Keys of Moon',
+               path: './assets/song/keys-of-moon-the-success.mp3',
+               image: './assets/img/thumb-1.jpg',
+           },
+           {
+               name: 'Happy Commercial',
+               singer: 'MaxKoMusic',
+               path: './assets/song/Happy-Commercial-Piano.mp3',
+               image: './assets/img/thumb-2.jpg',
+           },
+           {
+               name: 'Sunny',
+               singer: 'LiQWYD',
+               path: './assets/song/Sunny.mp3',
+               image: './assets/img/thumb-3.jpg',
+           },
+           {
+               name: 'Calm and Peaceful',
+               singer: 'LesFM',
+               path: './assets/song/Calm-and-Peaceful.mp3',
+               image: './assets/img/thumb-4.jpg',
+           },
+           {
+               name: 'Heart of The Ocean',
+               singer: 'Purrple Cat',
+               path: './assets/song/Heart-Of-The-Ocean.mp3',
+               image: './assets/img/thumb-5.jpg',
+           },
+           {
+               name: 'Sunset Landscape',
+               singer: 'Keys of Moon',
+               path: './assets/song/Sunset-Landscape.mp3',
+               image: './assets/img/thumb-6.jpg',
+           },
+       ],
+
+       render: function () {
+         const htmls = this.song.map(song => {
+             return `
+             <div class="song">
+                <div class="thumb" style="background-image: url('${song.image}')">
+                </div>
+                <div class="body">
+                    <h3 class="title">${song.name}</h3>
+                    <p class="author">${song.singer}</p>
+                </div>
+                <div class="option">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                </div>
+             `
+         })  
+         $('.playlist').innerHTML = htmls.join('')
+       },
+       handleEvents: function () {
+        const cd=$('.cd')
+        const cdWidth = cd.offsetWidth   
+
+        document.onscroll = function () {
+               const scrollTop = window.scrollY || document.documentElement.scrollTop
+               const newWidth = cdWidth - scrollTop
+            console.log(newWidth);
+               cd.style.width = newWidth>-56? newWidth + 'px' : 0
+               cd.style.opacity = newWidth/cdWidth
+            }
+       },
+       start: function () {
+        this.handleEvents(),   
+        this.render()
+       }
+   }
+   app.start()
+</script>
